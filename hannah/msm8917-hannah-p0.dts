@@ -12,8 +12,15 @@
 
 /dts-v1/;
 #include "msm8917.dtsi"
-#include "msm8917-hannah.dtsi"
+#include "msm8917-moto-common.dtsi"
+#define DEVICE_RHANNAH
+#include "msm8937-hannah-common.dtsi"
+#include "camera.dtsi"
 
 / {
+	model = "hannah";
+	compatible = "qcom,msm8917-hannah", "qcom,msm8917-moto",
+			"qcom,msm8917";
+
 	qcom,board-id = <0x44 0x8000>;
 };
