@@ -28,7 +28,7 @@
 #endif
 
 #include "carrier-channel-ids.dtsi"
-#include "dsi-panel-mot-dummy-qhd-video.dtsi"
+#include "../dsi-panel/dsi-panel-mot-dummy-qhd-video.dtsi"
 #include "include/moto-mem-reserve.h"
 
 /* Custom */
