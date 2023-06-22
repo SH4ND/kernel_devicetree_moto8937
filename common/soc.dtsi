@@ -1,11 +1,3 @@
-&venus_mem {
-	size = <0 0x1000000>;
-};
-
-&adsp_mem {
-	compatible = "removed-dma-pool";
-};
-
 &qcom_seecom {
 	qcom,appsbl-qseecom-support;
 };
@@ -24,5 +16,20 @@
 		clock-names = "core_clk_src", "core_clk",
 				"iface_clk", "bus_clk";
 		qcom,ce-opp-freq = <100000000>;
+	};
+
+#ifdef IS_MSM8917
+	qcom_tzlog: tz-log@8600720
+#else
+	qcom_tzlog: tz-log@08600720
+#endif
+	{
+		status = "okay";
+		linux,contiguous-region = <&tzlog_bck_mem>;
+	};
+
+	wdog: qcom,wdt@b017000 {
+		qcom,bark-time = <22000>;
+		linux,contiguous-region = <&wdog_cpuctx_mem>;
 	};
 };

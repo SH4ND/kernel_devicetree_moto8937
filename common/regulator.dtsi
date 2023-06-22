@@ -1,0 +1,37 @@
+&rpm_bus {
+	rpm-regulator-ldoa18 {
+		compatible = "qcom,rpm-smd-regulator-resource";
+		qcom,resource-name = "ldoa";
+		qcom,resource-id = <18>;
+		qcom,regulator-type = <0>;
+		qcom,hpm-min-load = <10000>;
+		status = "okay";
+
+		regulator-l18 {
+			compatible = "qcom,rpm-smd-regulator";
+#ifdef IS_MSM8917
+			regulator-name = "pm8917_l18";
+#else
+			regulator-name = "pm8937_l18";
+#endif
+			qcom,set = <3>;
+			status = "okay";
+		};
+	};
+};
+
+#ifndef IS_MSM8917
+&apc_vreg_corner {
+	qcom,cpr-virtual-corner-init-voltage-adjustment =
+			<50000 50000 50000 50000 50000 75000 50000>,
+			<50000 50000 50000 50000 50000 75000 50000>,
+			<50000 50000 50000 50000 50000 75000 50000>,
+			<50000 50000 50000 50000 50000 75000 50000>;
+
+	qcom,cpr-virtual-corner-quotient-adjustment =
+			<100 100 100 100 100 150 100>,
+			<100 100 100 100 100 150 100>,
+			<100 100 100 100 100 150 100>,
+			<100 100 100 100 100 150 100>;
+};
+#endif
