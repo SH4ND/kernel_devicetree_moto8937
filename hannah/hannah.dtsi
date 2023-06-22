@@ -11,7 +11,7 @@
  */
 
 #ifndef DEVICE_RHANNAH
-#include "msm8937-hannah-pinctrl.dtsi"
+#include "pinctrl.dtsi"
 #endif
 
 #include "android.dtsi"
