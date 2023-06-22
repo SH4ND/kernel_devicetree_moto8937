@@ -15,7 +15,6 @@
 #include "msm8937-moto-common.dtsi"
 #define DEVICE_AHANNAH
 #include "msm8937-hannah-common.dtsi"
-#include "camera.dtsi"
 
 / {
 	model = "hannah";

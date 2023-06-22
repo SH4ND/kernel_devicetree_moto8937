@@ -648,3 +648,5 @@
 	status = "disabled";
 	/delete-node/ stml0xx@0;
 };
+
+#include "camera.dtsi"
