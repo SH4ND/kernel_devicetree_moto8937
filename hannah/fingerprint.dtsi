@@ -73,7 +73,7 @@
 #endif
 
 #ifdef DEVICE_RHANNAH
-#include "msm8917-moto-common-fps.dtsi"
+#include "../common/peripheral/optional/msm8917-moto-common-fps.dtsi"
 &et320 {
 	egistec,gpio_ldo1p8_en = <&tlmm 39 0x0>;
 	egistec,gpio_ldo3p3_en = <&tlmm 13 0x0>;
