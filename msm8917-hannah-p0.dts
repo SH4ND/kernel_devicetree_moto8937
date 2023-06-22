@@ -11,10 +11,14 @@
  */
 
 /dts-v1/;
-#include "msm8917.dtsi"
-#include "msm8917-moto-common.dtsi"
+
+#include "qcom/msm8917.dtsi"
+
+#define SOC_MSM8917
+#include "common/common.dtsi"
+
 #define DEVICE_RHANNAH
-#include "msm8937-hannah-common.dtsi"
+#include "hannah/hannah.dtsi"
 
 / {
 	model = "hannah";
