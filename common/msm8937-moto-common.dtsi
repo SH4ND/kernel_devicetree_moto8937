@@ -10,7 +10,11 @@
  * GNU General Public License for more details.
  */
 
+#if defined(IS_MSM8940)
+#include "msm8940.dtsi"
+#else
 #include "msm8937.dtsi"
+#endif
 #include "msm-pmi8950.dtsi"
 #include "msm8937-pinctrl.dtsi"
 #include "msm8937-moto-pinctrl.dtsi"
