@@ -23,10 +23,8 @@
 
 #ifdef IS_MSM8917
 #include "msm8917-pinctrl.dtsi"
-#include "msm8917-moto-pinctrl.dtsi"
 #else
 #include "msm8937-pinctrl.dtsi"
-#include "msm8937-moto-pinctrl.dtsi"
 #endif
 
 #include "carrier-channel-ids.dtsi"
