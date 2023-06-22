@@ -13,7 +13,9 @@
 #include "dsi-panel-mot-tianma-599-hd-video.dtsi"
 #include "dsi-panel-mot-djn-599-hd-video.dtsi"
 #include "dsi-panel-mot-djn-600-hd-video.dtsi"
+#ifndef DEVICE_HANNAH
 #include "dsi-panel-mot-ofilm-599-hd-video.dtsi"
+#endif
 
 &firmware {
 	android {
@@ -57,6 +59,33 @@
 			"AMIC1", "MIC BIAS External",
 			"AMIC2", "MIC BIAS External2",
 			"AMIC3", "MIC BIAS External";
+#ifdef DEVICE_HANNAH
+		qcom,msm-gpios =
+			"pri_i2s",
+			"quin_i2s";
+		qcom,pinctrl-names =
+			"all_off",
+			"pri_i2s_act",
+			"quin_act",
+			"quin_pri_i2s_act";
+		pinctrl-names =
+			"all_off",
+			"pri_i2s_act",
+			"quin_act",
+			"quin_pri_i2s_act";
+		pinctrl-0 = <&cdc_pdm_lines_sus
+                        &cdc_pdm_lines_2_sus
+                        &quin_mi2s_sus &pri_tlmm_ws_sus>;
+		pinctrl-1 = <&cdc_pdm_lines_act
+                        &cdc_pdm_lines_2_act
+                        &quin_mi2s_sus &pri_tlmm_ws_sus>;
+		pinctrl-2 = <&cdc_pdm_lines_sus
+                        &cdc_pdm_lines_2_sus
+                        &quin_mi2s_act &pri_tlmm_ws_act>;
+		pinctrl-3 = <&cdc_pdm_lines_act
+                        &cdc_pdm_lines_2_act
+                        &quin_mi2s_act &pri_tlmm_ws_act>;
+#else
 		qcom,msm-gpios =
 			"pri_i2s";
 		qcom,pinctrl-names =
@@ -69,6 +98,7 @@
 		pinctrl-1 = <&cdc_pdm_lines_act &cdc_pdm_lines_2_act>;
 		/delete-property/ pinctrl-2;
 		/delete-property/ pinctrl-3;
+#endif
 		/delete-property/ pinctrl-4;
 		/delete-property/ pinctrl-5;
 		/delete-property/ pinctrl-6;
@@ -76,6 +106,14 @@
 	};
 	/delete-node/ et320;
 	/delete-node/ fp_id;
+
+#ifdef DEVICE_HANNAH
+	ti,tas2560-algo {
+		compatible = "ti,tas2560-algo";
+		ti,tas2560-port-id = <0x1016>, <0x1017>;
+	};
+#endif
+
 	et320: et320{
 		compatible = "egistec,et320";
 		status = "ok";
@@ -84,15 +122,107 @@
 		interrupts = <48 0x0>;
 		egistec,gpio_irq    = <&tlmm 48 0x1>;
 		egistec,gpio_rst    = <&tlmm 127 0x2>;
+#ifdef DEVICE_HANNAH
+		egistec,gpio_ldo1p8_en = <&tlmm 128 0x0>;
+		egistec,gpio_ldo3p3_en = <&tlmm 39 0x0>;
+#else
 		egistec,gpio_ldo1p8_en = <&tlmm 39 0x0>;
 		egistec,gpio_ldo3p3_en = <&tlmm 13 0x0>;
+#endif
 		pinctrl-names = "default", "suspend";
 		pinctrl-0 = <&rst_active &int_active &ldo_en_active &ldo3_en_active>;
 		pinctrl-1 = <&rst_suspend &int_suspend &ldo_en_suspend &ldo3_en_suspend>;
 	};
 };
 
+#ifdef DEVICE_HANNAH
+&ldo_en_active {
+	mux {
+		pins = "gpio128";
+	};
+	config {
+		pins = "gpio128";
+	};
+};
+
+&ldo_en_suspend {
+	mux {
+		pins = "gpio128";
+	};
+	config {
+		pins = "gpio128";
+	};
+};
+
+&ldo3_en_active {
+	mux {
+		pins = "gpio39";
+	};
+	config {
+		pins = "gpio39";
+	};
+};
+
+&ldo3_en_suspend {
+	mux {
+		pins = "gpio39";
+	};
+	config {
+		pins = "gpio39";
+	};
+};
+
+&tlmm{
+	quin-mi2s-lines {
+		quin_mi2s_act: quin_mi2s_act {
+			mux {
+				pins = "gpio85", "gpio86", "gpio88";
+				function = "pri_mi2s";
+			};
+			config {
+				pins = "gpio85", "gpio86", "gpio88";
+				drive-strength = <8>;
+			};
+		};
+		quin_mi2s_sus: quin_mi2s_sus {
+			mux {
+				pins = "gpio85", "gpio86", "gpio88";
+				function = "pri_mi2s";
+			};
+			config {
+				pins = "gpio85", "gpio86", "gpio88";
+				drive-strength = <2>;
+				bias-pull-down;
+			};
+		};
+	};
+	tps61280_en_default: tps61280_en_default {
+		mux {
+			pins = "gpio96";
+		};
+		config {
+			pins = "gpio96";
+			drive_strength = <8>;
+			output-high;
+		};
+	};
+};
+#endif
+
 &i2c_2 {
+#ifdef DEVICE_HANNAH
+	tas2560@4c {
+			compatible = "ti,tas2560";
+			reg = <0x4c>;
+			ti,reset-gpio = <&tlmm 89 0>;
+			ti,irq-gpio = <&tlmm 90 0>;
+			ti,pll = <0>; /* refer to tas2560.h for more details */
+			ti,asi-format = <0>; /* 0, i2S; 1, DSP;  */
+			ti,load = <1>; /* 0, 8Ohm; 1, 6Ohm; 2, 4Ohm */
+			ti,ppg = <110>; /*attenuation,0(-110db)~110(0db) */
+			status = "ok";
+	};
+#endif
 	sx9310@28 {
 		compatible = "semtech,sx9310";
 		reg = <0x28>;
@@ -105,15 +235,37 @@
 		gpios = <&tlmm 44 0x2008>; /* IRQ */
 		cap,use_channel = <0x0F>;
 		cap,use_channel_top = <0x00>;
+#ifdef DEVICE_HANNAH
+		cap,use_channel_bottom = <0x01>;
+#else
 		cap,use_channel_bottom = <0x02>;
+#endif
 		cap,raw_data_channel = <0x01>;
 		cap,scan_period = <0x02>;
+#ifdef DEVICE_HANNAH
+		reg_array_len = <9>;
+		reg_array_val = <0x14 0x0d 0x15 0xc2 0x17 0x4a 0x18 0x41 0x19 0x31 0x1a 0x1f 0x21 0x1c 0x22 0x16 0x23 0x20>;
+#else
 		reg_array_len = <10>;
 		reg_array_val = <0x12 0x03 0x13 0x0a 0x14 0x27 0x15 0xc3 0x17 0x4b 0x18 0x49 0x19 0x39 0x21 0x1a 0x22 0x05 0x23 0x20>;
+#endif
 	};
 
 	/delete-node/ adv7533@39;
 	/delete-node/ pericom-type-c@1d;
+#ifdef DEVICE_HANNAH
+	tps61280@75 {
+		compatible = "ti,tps61280";
+		status = "okay";
+		reg = <0x75>;
+		ti,config = <0x0D>;
+		ti,vout-floor = <0x0D>;
+		ti,vout-roof = <0x19>;
+		ti,ilim = <0x0F>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&tps61280_en_default>;
+	};
+#endif
 };
 
 
@@ -121,7 +273,11 @@
 	status = "ok";
 	/* clock-frequency = <400000>; */
 	focaltech@38{
+#ifdef DEVICE_HANNAH
+	compatible = "focaltech,fts";
+#else
 	compatible = "focaltech,mmi";
+#endif
 	reg = <0x38>;
 	interrupt-parent = <&tlmm>;
 	interrupts = <65 0x02>;
@@ -133,8 +289,13 @@
 	pinctrl-0 = <&ts_int_active &ts_reset_active>;
 	pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
 	pinctrl-2 = <&ts_release>;
+#ifdef DEVICE_HANNAH
+	focaltech,name = "fts_ts";
+	focaltech,family-id = <0x08>;
+#else
 	focaltech,name = "ft8006u";
 	focaltech,family-id = <0xf0>;
+#endif
 	focaltech,reset-gpio = <&tlmm 64 0x01>;
 	focaltech,irq-gpio = <&tlmm 65 0x02>;
 	focaltech,display-coords = <0 0 720 1440>;
@@ -267,9 +428,23 @@
 
 &pmi8950_charger {
 	qcom,fastchg-current-ma = <3000>;
+#ifdef DEVICE_HANNAH
+	qcom,chg-thermal-mitigation = <3000>, <2500>,<2000>, <1500>,
+					<1000>, <700>, <400>;
+#else
 	qcom,chg-thermal-mitigation = <3000>, <2500>,<2000>, <1500>,
 					<1000>,<700>, <600>;
+#endif
 	/delete-property/ qcom,dc-thermal-mitigation;
+#ifdef DEVICE_HANNAH
+	qcom,parallel-charge-current-map = <3000 3000 0>,
+					<2500 2500 0>,
+					<2000 2000 0>,
+					<1500 1500 0>,
+					<1000 1000 0>,
+					<700 700 0>,
+					<400 400 0>;
+#else
 	qcom,parallel-charge-current-map = <3000 3000 0>,
 					<2500 2500 0>,
 					<2000 2000 0>,
@@ -277,6 +452,7 @@
 					<1000 1000 0>,
 					<700 700 0>,
 					<600 600 0>;
+#endif
 	qcom,stepchg-voltage-mv = <4200>;
 	qcom,stepchg-current-ma = <2000>;
 	qcom,stepchg-taper-ma = <1800>;
@@ -302,6 +478,7 @@
 	/delete-property/ qcom,support_multi_coefficients;
 };
 
+#ifndef DEVICE_HANNAH
 &pm8937_vadc {
 	chan@11 {
 		label = "msm_therm";
@@ -311,6 +488,7 @@
 		label = "chg_therm";
 	};
 };
+#endif
 
 &usb_otg {
 	qcom,hsusb-otg-phy-init-seq =
@@ -319,7 +497,11 @@
 };
 &soc{
 	qcom,msm-thermal {
+#if defined(DEVICE_HANNAH)
+		qcom,config-info = "hannah";
+#else
 		qcom,config-info = "ahannah";
+#endif
 	};
 };
 
