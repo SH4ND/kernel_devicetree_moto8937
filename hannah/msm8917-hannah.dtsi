@@ -11,7 +11,8 @@
  */
 
 #include "msm8917-moto-common.dtsi"
-#include "msm8917-hannah-common.dtsi"
+#define DEVICE_RHANNAH
+#include "msm8937-hannah-common.dtsi"
 #include "msm8917-camera-sensor-mot-hannah.dtsi"
 
  / {

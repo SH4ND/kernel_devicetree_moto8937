@@ -9,12 +9,28 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
+#ifndef DEVICE_RHANNAH
 #include "msm8937-hannah-pinctrl.dtsi"
+#endif
+#ifdef DEVICE_RHANNAH
+#include "dsi-panel-mot-tianma-571-720p-video.dtsi"
+#endif
 #include "dsi-panel-mot-tianma-599-hd-video.dtsi"
 #include "dsi-panel-mot-djn-599-hd-video.dtsi"
 #include "dsi-panel-mot-djn-600-hd-video.dtsi"
 #ifndef DEVICE_HANNAH
 #include "dsi-panel-mot-ofilm-599-hd-video.dtsi"
+#endif
+#ifdef DEVICE_RHANNAH
+#include "msm8917-moto-common-fps.dtsi"
+#endif
+
+#ifdef DEVICE_RHANNAH
+/ {
+	aliases {
+		/delete-property/ i2c4;
+	};
+};
 #endif
 
 &firmware {
@@ -36,6 +52,9 @@
 
 
 &soc {
+#ifdef DEVICE_RHANNAH
+	/delete-node/ i2c@78b8000;
+#endif
 	vdda_touch_vreg: vdda_touch_vreg {
 		compatible = "regulator-fixed";
 		regulator-name = "vdda_touch";
@@ -104,7 +123,9 @@
 		/delete-property/ pinctrl-6;
 		/delete-property/ pinctrl-7;
 	};
+#ifndef DEVICE_RHANNAH
 	/delete-node/ et320;
+#endif
 	/delete-node/ fp_id;
 
 #ifdef DEVICE_HANNAH
@@ -114,6 +135,12 @@
 	};
 #endif
 
+#ifdef DEVICE_RHANNAH
+&et320 {
+	egistec,gpio_ldo1p8_en = <&tlmm 39 0x0>;
+	egistec,gpio_ldo3p3_en = <&tlmm 13 0x0>;
+};
+#else
 	et320: et320{
 		compatible = "egistec,et320";
 		status = "ok";
@@ -133,9 +160,46 @@
 		pinctrl-0 = <&rst_active &int_active &ldo_en_active &ldo3_en_active>;
 		pinctrl-1 = <&rst_suspend &int_suspend &ldo_en_suspend &ldo3_en_suspend>;
 	};
+#endif
 };
 
-#ifdef DEVICE_HANNAH
+#if defined(DEVICE_RHANNAH)
+&ldo_en_active {
+	mux {
+		pins = "gpio39";
+	};
+	config {
+		pins = "gpio39";
+	};
+};
+
+&ldo_en_suspend {
+	mux {
+		pins = "gpio39";
+	};
+	config {
+		pins = "gpio39";
+	};
+};
+
+&ldo3_en_active {
+	mux {
+		pins = "gpio13";
+	};
+	config {
+		pins = "gpio13";
+	};
+};
+
+&ldo3_en_suspend {
+	mux {
+		pins = "gpio13";
+	};
+	config {
+		pins = "gpio13";
+	};
+};
+#else defined(DEVICE_HANNAH)
 &ldo_en_active {
 	mux {
 		pins = "gpio128";
@@ -171,7 +235,30 @@
 		pins = "gpio39";
 	};
 };
+#endif
 
+#ifdef DEVICE_RHANNAH
+&tlmm{
+	/delete-node/ sx9310;
+	sx9310:sx9310 {
+		sx9310_int_default: default {
+			mux {
+				pins = "gpio44";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio44";
+				drive-strength = <2>;
+				bias-pull-up;
+				input-enable;
+			};
+		};
+	};
+};
+#endif
+
+#ifdef DEVICE_HANNAH
 &tlmm{
 	quin-mi2s-lines {
 		quin_mi2s_act: quin_mi2s_act {
@@ -230,8 +317,13 @@
 		pinctrl-0 = <&sx9310_int_default>;
 		interrupt-parent = <&tlmm>;
 		interrupts = <44 0x2002>;
+#ifdef SOC_MSM8917
+		cap_vdd-supply = <&pm8917_l10>;
+		cap_svdd-supply = <&pm8917_l5>;
+#else
 		cap_vdd-supply = <&pm8937_l10>;
 		cap_svdd-supply = <&pm8937_l5>;
+#endif
 		gpios = <&tlmm 44 0x2008>; /* IRQ */
 		cap,use_channel = <0x0F>;
 		cap,use_channel_top = <0x00>;
@@ -283,7 +375,11 @@
 	interrupts = <65 0x02>;
 	/* vdd-supply = <&pm8937_l17>; */
 	vdd-supply = <&vdda_touch_vreg>;
+#ifdef SOC_MSM8917
+	vcc_i2c-supply = <&pm8917_l6>;
+#else
 	vcc_i2c-supply = <&pm8937_l6>;
+#endif
 	/* pins used by touchscreen */
 	pinctrl-names = "pmx_ts_active","pmx_ts_suspend","pmx_ts_release";
 	pinctrl-0 = <&ts_int_active &ts_reset_active>;
@@ -305,7 +401,11 @@
 	focaltech,group-id = <1>;
 	focaltech,hard-reset-delay-ms = <20>;
 	focaltech,soft-reset-delay-ms = <200>;
+#ifdef DEVICE_RHANNAH
+	focaltech,num-max-touches = <10>;
+#else
 	focaltech,num-max-touches = <5>;
+#endif
 	focaltech,fw-delay-aa-ms = <30>;
 	focaltech,fw-delay-55-ms = <30>;
 	focaltech,fw-upgrade-id1 = <0x79>;
@@ -362,6 +462,17 @@
 	};
 };
 
+#ifdef SOC_MSM8917
+&pm8917_l6 {
+	regulator-always-on;
+	regulator-boot-on;
+};
+
+&pm8917_l10 {
+	regulator-always-on;
+	regulator-boot-on;
+};
+#else
 &pm8937_l6 {
 	regulator-always-on;
 	regulator-boot-on;
@@ -371,10 +482,19 @@
 	regulator-always-on;
 	regulator-boot-on;
 };
+#endif
 
 &mdss_dsi0 {
+#ifdef DEVICE_RHANNAH
+	qcom,dsi-pref-prim-pan = <&mot_tianma_571_720p_vid_v0>;
+#else
 	qcom,dsi-pref-prim-pan = <&mot_tianma_599_hd_vid_v0>;
+#endif
+#ifdef SOC_MSM8917
+	vddio_disp-supply = <&pm8917_l6>;
+#else
 	vddio_disp-supply = <&pm8937_l6>;
+#endif
 	vsp_disp-supply = <&lab_regulator>;
 	vsn_disp-supply = <&ibb_regulator>;
 
@@ -497,7 +617,9 @@
 };
 &soc{
 	qcom,msm-thermal {
-#if defined(DEVICE_HANNAH)
+#if defined(DEVICE_RHANNAH)
+		qcom,config-info = "rhannah";
+#elif defined(DEVICE_HANNAH)
 		qcom,config-info = "hannah";
 #else
 		qcom,config-info = "ahannah";
