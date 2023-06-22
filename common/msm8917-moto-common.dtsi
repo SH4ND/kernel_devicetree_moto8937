@@ -13,17 +13,16 @@
 #include "msm-pmi8950.dtsi"
 #include "msm8917-pinctrl.dtsi"
 #include "msm8917-moto-pinctrl.dtsi"
-#include "dsi-panel-mot-dummy-qhd-video.dtsi"
 #include "carrier-channel-ids.dtsi"
+#include "dsi-panel-mot-dummy-qhd-video.dtsi"
 #include <moto-mem-reserve.h>
 
 / {
-	aliases {
+	aliases { // TODO
 		i2c3 = &i2c_3;
 		i2c4 = &i2c_4;
 		i2c5 = &i2c_5;
 		/delete-property/ spi3;
-/*		/delete-property/ i2c5;*/
 	};
 
 	reserved-memory {
@@ -72,6 +71,7 @@
 		compatible = "mmi,alsa-to-h2w";
 	};
 
+// TODO
 	i2c_3: i2c@78b7000 { /* BLSP1 QUP3 */
 		status = "okay";
 		compatible = "qcom,i2c-msm-v2";
@@ -204,7 +204,6 @@
 			qcom,sensor-name = "back_temp";
 			qcom,scaling-factor = <1000>;
 		};
-
 	};
 
 	sys_temp_support {
@@ -274,6 +273,7 @@
 		status = "okay";
 		linux,contiguous-region = <&tzlog_bck_mem>;
 	};
+
 };
 
 &blsp1_uart2 {
@@ -432,14 +432,6 @@
 	qcom,fg-cc-cv-threshold-mv = <4390>;
 	qcom,battery-data = <&mot_batterydata>;
 };
-&spmi_bus {
-	qcom,pmi8950@2 {
-		qcom,power-on@800 {
-			qcom,shipmode;
-		};
-	};
-};
-
 &pm8937_vadc {
 	chan@11 {
 		label = "chg_therm";
@@ -458,6 +450,14 @@
 		qcom,ain-route = <0>; /* AMUX 5 */
 		qcom,master-en = <1>;
 		qcom,src-sel = <0>; /* Function constant */
+	};
+};
+
+&spmi_bus {
+	qcom,pmi8950@2 {
+		qcom,power-on@800 {
+			qcom,shipmode;
+		};
 	};
 };
 
