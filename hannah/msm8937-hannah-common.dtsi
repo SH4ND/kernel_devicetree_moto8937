@@ -13,13 +13,13 @@
 #include "msm8937-hannah-pinctrl.dtsi"
 #endif
 #ifdef DEVICE_RHANNAH
-#include "dsi-panel-mot-tianma-571-720p-video.dtsi"
+#include "../dsi-panel/dsi-panel-mot-tianma-571-720p-video.dtsi"
 #endif
-#include "dsi-panel-mot-tianma-599-hd-video.dtsi"
-#include "dsi-panel-mot-djn-599-hd-video.dtsi"
-#include "dsi-panel-mot-djn-600-hd-video.dtsi"
+#include "../dsi-panel/dsi-panel-mot-tianma-599-hd-video.dtsi"
+#include "../dsi-panel/dsi-panel-mot-djn-599-hd-video.dtsi"
+#include "../dsi-panel/dsi-panel-mot-djn-600-hd-video.dtsi"
 #ifndef DEVICE_HANNAH
-#include "dsi-panel-mot-ofilm-599-hd-video.dtsi"
+#include "../dsi-panel/dsi-panel-mot-ofilm-599-hd-video.dtsi"
 #endif
 #ifdef DEVICE_RHANNAH
 #include "msm8917-moto-common-fps.dtsi"
@@ -629,9 +629,9 @@
 
 &mot_batterydata {
 	qcom,batt-id-range-pct = <15>;
-	#include "batterydata-he50-atl-pmi8937.dtsi"
-	#include "batterydata-he50-cos-pmi8937.dtsi"
-	#include "batterydata-he50-cos-pmi8937-r1.dtsi"
+	#include "../batterydata/batterydata-he50-atl-pmi8937.dtsi"
+	#include "../batterydata/batterydata-he50-cos-pmi8937.dtsi"
+	#include "../batterydata/batterydata-he50-cos-pmi8937-r1.dtsi"
 };
 
 &pmi_haptic {
