@@ -14,17 +14,17 @@
 
 // TODO: Handle IS_MSM8917 and IS_MSM8920
 #if defined(IS_MSM8940)
-#include "msm8940.dtsi"
+#include "qcom/msm8940.dtsi"
 #else
-#include "msm8937.dtsi"
+#include "qcom/msm8937.dtsi"
 #endif
 
-#include "msm-pmi8950.dtsi"
+#include "qcom/msm-pmi8950.dtsi"
 
 #ifdef IS_MSM8917
-#include "msm8917-pinctrl.dtsi"
+#include "qcom/msm8917-pinctrl.dtsi"
 #else
-#include "msm8937-pinctrl.dtsi"
+#include "qcom/msm8937-pinctrl.dtsi"
 #endif
 
 #include "carrier-channel-ids.dtsi"
