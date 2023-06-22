@@ -1,4 +1,4 @@
-#ifdef IS_MSM8917
+#ifdef SOC_MSM8917
 
 #include "msm8917-fps.dtsi"
 #include "msm8917-i2c.dtsi"

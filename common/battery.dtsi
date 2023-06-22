@@ -43,7 +43,7 @@
 	qcom,bmd-algo-disabled;
 	qcom,bmd-pin-src = "bpd_none";
 	qcom,usbid-disabled;
-#ifndef IS_MSM8917
+#ifndef SOC_MSM8917
 	qcom,usbid-gpio-enabled;
 #endif
 	qcom,force-aicl-rerun;

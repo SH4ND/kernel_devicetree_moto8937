@@ -9,7 +9,7 @@
 			qcom,sensor-name = "chg_therm";
 		};
 
-#ifdef IS_MSM8917
+#ifdef SOC_MSM8917
 		sensor_information14: qcom,sensor-information-14 {
 			qcom,sensor-type = "adc";
 			qcom,sensor-name = "msm_therm";

@@ -9,7 +9,7 @@
 
 		regulator-l18 {
 			compatible = "qcom,rpm-smd-regulator";
-#ifdef IS_MSM8917
+#ifdef SOC_MSM8917
 			regulator-name = "pm8917_l18";
 #else
 			regulator-name = "pm8937_l18";
@@ -20,7 +20,7 @@
 	};
 };
 
-#ifndef IS_MSM8917
+#ifndef SOC_MSM8917
 &apc_vreg_corner {
 	qcom,cpr-virtual-corner-init-voltage-adjustment =
 			<50000 50000 50000 50000 50000 75000 50000>,

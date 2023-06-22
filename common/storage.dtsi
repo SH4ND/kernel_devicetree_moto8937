@@ -1,6 +1,6 @@
 &sdhc_1 {
 	/* device core power supply */
-#ifdef IS_MSM8917
+#ifdef SOC_MSM8917
 	vdd-supply = <&pm8917_l8>;
 #else
 	vdd-supply = <&pm8937_l8>;
@@ -9,7 +9,7 @@
 	qcom,vdd-current-level = <200 570000>;
 
 	/* device communication power supply */
-#ifdef IS_MSM8917
+#ifdef SOC_MSM8917
 	vdd-io-supply = <&pm8917_l5>;
 #else
 	vdd-io-supply = <&pm8937_l5>;
@@ -33,7 +33,7 @@
 
 &sdhc_2 {
 	/* device core power supply */
-#ifdef IS_MSM8917
+#ifdef SOC_MSM8917
 	vdd-supply = <&pm8917_l11>;
 #else
 	vdd-supply = <&pm8937_l11>;
@@ -42,7 +42,7 @@
 	qcom,vdd-current-level = <15000 800000>;
 
 	/* device communication power supply */
-#ifdef IS_MSM8917
+#ifdef SOC_MSM8917
 	vdd-io-supply = <&pm8917_l12>;
 #else
 	vdd-io-supply = <&pm8937_l12>;
@@ -64,7 +64,7 @@
 		2 &tlmm 67 0>;
 	interrupt-names = "hc_irq", "pwr_irq", "status_irq";
 	cd-gpios = <&tlmm 67 0x1>;
-#ifndef IS_MSM8917
+#ifndef SOC_MSM8917
 	qcom,cd-wakeup;
 #endif
 

@@ -12,8 +12,8 @@
 
 /* Moto */
 
-// TODO: Handle IS_MSM8917 and IS_MSM8920
-#if defined(IS_MSM8940)
+// TODO: Handle SOC_MSM8917 and SOC_MSM8920
+#if defined(SOC_MSM8940)
 #include "qcom/msm8940.dtsi"
 #else
 #include "qcom/msm8937.dtsi"
@@ -21,7 +21,7 @@
 
 #include "qcom/msm-pmi8950.dtsi"
 
-#ifdef IS_MSM8917
+#ifdef SOC_MSM8917
 #include "qcom/msm8917-pinctrl.dtsi"
 #else
 #include "qcom/msm8937-pinctrl.dtsi"

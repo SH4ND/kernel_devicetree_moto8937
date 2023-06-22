@@ -194,7 +194,7 @@
 		};
 	};
 
-#ifndef IS_MSM8917
+#ifndef SOC_MSM8917
 	/delete-node/ pri-tlmm-lines;
 	pri-tlmm-lines {
 		pri_tlmm_lines_act: pri_tlmm_lines_act {

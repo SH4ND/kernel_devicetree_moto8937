@@ -2,7 +2,7 @@
 	aliases {
 		i2c3 = &i2c_3;
 		/delete-property/ spi3;
-#ifndef IS_MSM8917
+#ifndef SOC_MSM8917
 		/delete-property/ i2c5;
 #endif
 	};
