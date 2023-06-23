@@ -10,6 +10,11 @@
  * GNU General Public License for more details.
  */
 
+/* Custom */
+#ifdef SOC_MSM8920
+#define SOC_MSM8917
+#endif
+
 /* Moto */
 
 // TODO: Handle SOC_MSM8917 and SOC_MSM8920
