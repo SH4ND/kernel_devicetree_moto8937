@@ -34,7 +34,7 @@
 		pins = "gpio13";
 	};
 };
-#else defined(DEVICE_HANNAH)
+#elif defined(DEVICE_HANNAH)
 &ldo_en_active {
 	mux {
 		pins = "gpio128";
