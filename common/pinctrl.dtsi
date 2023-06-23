@@ -224,3 +224,23 @@
 	};
 #endif
 };
+
+#ifndef SOC_MSM8917
+&adv7533_int_active {
+	mux {
+		pins = "gpio129";
+	};
+	config {
+		pins = "gpio129";
+	};
+};
+
+&adv7533_int_suspend {
+	mux {
+		pins = "gpio129";
+	};
+	config {
+		pins = "gpio129";
+	};
+};
+#endif
