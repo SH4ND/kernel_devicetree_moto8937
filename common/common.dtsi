@@ -13,10 +13,10 @@
 /* Moto */
 
 // TODO: Handle SOC_MSM8917 and SOC_MSM8920
-#if defined(SOC_MSM8940)
-#include "qcom/msm8940.dtsi"
-#else
+#if defined(SOC_MSM8937)
 #include "qcom/msm8937.dtsi"
+#elif defined(SOC_MSM8940)
+#include "qcom/msm8940.dtsi"
 #endif
 
 #include "qcom/msm-pmi8950.dtsi"
