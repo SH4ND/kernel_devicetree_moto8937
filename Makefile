@@ -10,6 +10,8 @@ dtb-y += msm8920-jeter-p0.dtb
 dtb-y += msm8920-jeter-p3.dtb
 dtb-y += msm8937-jeter-p0.dtb
 
+dtb-y += msm8917-nora-p0.dtb
+
 always		:= $(dtb-y)
 subdir-y	:= $(dts-dirs)
 clean-files	:= *.dtb
