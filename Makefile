@@ -12,6 +12,12 @@ dtb-y += msm8937-jeter-p0.dtb
 
 dtb-y += msm8917-nora-p0.dtb
 
+dtb-y += msm8937-montana-p0.dtb
+dtb-y += msm8937-montana-p1a.dtb
+dtb-y += msm8937-montana-p1b.dtb
+dtb-y += msm8937-montana-p2.dtb
+dtb-y += msm8937-montana-p3.dtb
+
 always		:= $(dtb-y)
 subdir-y	:= $(dts-dirs)
 clean-files	:= *.dtb
